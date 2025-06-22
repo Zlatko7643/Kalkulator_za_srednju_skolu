@@ -6,154 +6,226 @@
     <meta name="google-site-verification" content="A3QGjia9B7i6JmgQpocgbg_6mYzPtyoFHp5CYfOOcSM" />
     <title>Kalkulator za upis u srednju ZK</title>
     <style>
-        body {
-            font-family: 'Segoe UI', sans-serif;
-            background: linear-gradient(to right, #cce7f0, #ffffff);
-            padding: 30px;
-            max-width: 900px;
-            margin: auto;
-            color: #333;
-            border-radius: 15px;
-            box-shadow: 0 0 20px rgba(0,0,0,0.1);
-        }
-        h1 {
-            color: #004d40;
-            text-align: center;
-            font-size: 32px;
-        }
-        h2 {
-            color: #00695c;
-            border-bottom: 2px solid #004d40;
-            padding-bottom: 5px;
-        }
-        label, select, input {
-            display: block;
-            margin: 10px 0;
-            width: 100%;
-        }
-        input, select {
-            padding: 10px;
-            border-radius: 8px;
-            border: 1px solid #ccc;
-            background-color: #f9f9f9;
-        }
-        button {
-            background-color: #00796b;
-            color: white;
-            border: none;
-            padding: 12px 25px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 16px;
-            margin-top: 15px;
-        }
-        button:hover {
-            background-color: #004d40;
-        }
-        .output {
-            font-weight: bold;
-            font-size: 20px;
-            margin-top: 30px;
-            text-align: center;
-        }
-        footer {
-            margin-top: 40px;
-            text-align: center;
-            font-style: italic;
-            color: #00796b;
-            font-size: 18px;
-        }
-    </style>
+         body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #4a90e2, #50e3c2);
+      padding: 30px;
+      max-width: 900px;
+      margin: 40px auto;
+      color: #222;
+      border-radius: 15px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    }
+    h1 {
+      color: #ffffff;
+      text-align: center;
+      font-size: 36px;
+      margin-bottom: 10px;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+    }
+    label {
+      display: block;
+      margin: 15px 0 5px 0;
+      font-weight: 600;
+      color: #f0f4f8;
+    }
+    input, select {
+      padding: 12px;
+      width: 150px;
+      border-radius: 8px;
+      border: none;
+      font-size: 1rem;
+      background-color: rgba(255, 255, 255, 0.9);
+      box-shadow: inset 0 2px 5px rgba(0,0,0,0.1);
+    }
+    input:focus, select:focus {
+      outline: none;
+      box-shadow: 0 0 8px #00bcd4;
+      background-color: #ffffff;
+    }
+    button {
+      background-color: #00bcd4;
+      color: white;
+      border: none;
+      padding: 14px 28px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 18px;
+      margin: 20px 15px 15px 0;
+      box-shadow: 0 5px 15px rgba(0,188,212,0.4);
+    }
+    button:hover {
+      background-color: #0097a7;
+    }
+    button.reset {
+      background-color: #e53935;
+    }
+    .output {
+      font-weight: 700;
+      font-size: 22px;
+      margin-top: 35px;
+      text-align: center;
+      padding: 15px;
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 12px;
+      color: #e1f5fe;
+    }
+    #predmeti label {
+      color: white;
+    }
+  </style>
 </head>
-<body>
-    <h1>Kalkulator za upis u srednju školu ZK</h1>
+<body id="pdfContent">
 
-    <h2>1. Opći uspjeh</h2>
-    <label>Prosjek VI razred: <input type="number" step="0.01" id="p6"></label>
-    <label>Prosjek VII razred: <input type="number" step="0.01" id="p7"></label>
-    <label>Prosjek VIII razred: <input type="number" step="0.01" id="p8"></label>
-    <label>Prosjek IX razred: <input type="number" step="0.01" id="p9"></label>
+<h1>Kalkulator za upis u srednju školu ZK</h1>
 
-    <h2>2. Izaberi srednju školu u Sarajevu</h2>
-    <label>Vrsta škole:
-        <select id="skola" onchange="postaviPredmete()">
-            <option value="gimnazija">Gimnazija / Ekonomska / Trgovačka</option>
-            <option value="medicinska">Medicinska / Zubotehnička / Frizer / Kozmetičar / Veterinarska / Poljoprivredna / Šumarska / Prehrambena</option>
-            <option value="ugostiteljska">Ugostiteljsko-turistička</option>
-            <option value="tekstilna">Tekstilna / Kožarska</option>
-            <option value="umjetnicka">Škola primijenjenih umjetnosti</option>
-            <option value="muzicka">Muzička škola</option>
-            <option value="drvna">Drvna / Šumarska</option>
-            <option value="ostale">Mašinska / Metalska / Elektro / Građevinska / Geodetska / Saobraćajna / Grafička</option>
-        </select>
-    </label>
-    <div id="predmeti"></div>
+<h2>1. Opći uspjeh</h2>
+<label>Prosjek VI razred: <input type="number" step="0.01" id="p6"></label>
+<label>Prosjek VII razred: <input type="number" step="0.01" id="p7"></label>
+<label>Prosjek VIII razred: <input type="number" step="0.01" id="p8"></label>
+<label>Prosjek IX razred: <input type="number" step="0.01" id="p9"></label>
 
-    <h2>3. Eksterna matura (maks. 30 bodova)</h2>
-    <label>Bosanski jezik: <input type="number" id="bosanski" min="0" max="10"></label>
-    <label>Matematika: <input type="number" id="matematika" min="0" max="10"></label>
-    <label>Prvi strani jezik: <input type="number" id="strani" min="0" max="10"></label>
+<h2>2. Izaberi srednju školu u Sarajevu</h2>
+<label>Vrsta škole:
+<select id="skola" onchange="postaviPredmete()">
+  <option value="gimnazija">Gimnazija / Medresa</option>
+  <option value="ekonomska">Ekonomska / Trgovačka / Poslovna</option>
+  <option value="sportska">Gimnazija - sportsko izborno područje</option>
+  <option value="it">Gimnazija informacione tehnologije</option>
+  <option value="medicinska">Medicinska / Zubotehnička / Veterinarska</option>
+  <option value="prehrambena">Prehrambena / Poljoprivredna / Frizer / Kozmetičar</option>
+  <option value="ugostiteljska">Ugostiteljsko-turistička</option>
+  <option value="tekstilna">Tekstilna / Kožarska</option>
+  <option value="umjetnicka">Škola primijenjenih umjetnosti</option>
+  <option value="muzicka">Muzička škola</option>
+  <option value="drvna">Drvna / Šumarska</option>
+  <option value="ostale">Mašinska / Elektro / Građevinska / Geodetska / Metalska / Saobraćajna / Grafička</option>
+</select>
+</label>
+<div id="predmeti"></div>
 
-    <h2>4. Takmičenja (maks. 10 bodova)</h2>
-    <label>Bodovi sa takmičenja: <input type="number" id="takm"></label>
+<h2>3. Eksterna matura (maks. 24 boda)</h2>
+<label>Bosanski jezik: <input type="number" id="bosanski" min="0" max="10"></label>
+<label>Matematika: <input type="number" id="matematika" min="0" max="10"></label>
+<label>Prvi strani jezik: <input type="number" id="strani" min="0" max="10"></label>
 
-    <button onclick="izracunajBodove()">Izračunaj bodove</button>
+<h2>4. Takmičenja (maks. 7 bodova)</h2>
+<label>Bodovi sa takmičenja: <input type="number" id="takm" min="0" max="7"></label>
 
-    <div class="output">Ukupan broj bodova: <span id="rezultat">-</span></div>
+<button onclick="izracunajBodove()">Izračunaj bodove</button>
+<button onclick="exportToPDF()">Preuzmi kao PDF</button>
+<button onclick="resetForm()" class="reset">Resetuj formu</button>
 
-    <footer>Sretno budući srednjoškolci!</footer>
+<div class="output">Ukupan broj bodova: <span id="rezultat">-</span></div>
 
-    <script>
-        const predmetiMapa = {
-            gimnazija: ['Bosanski/Hrvatski/Srpski', 'Matematika', 'Strani jezik'],
-            medicinska: ['Bosanski/Hrvatski/Srpski', 'Hemija', 'Biologija'],
-            ugostiteljska: ['Bosanski/Hrvatski/Srpski', 'Geografija', 'Strani jezik'],
-            tekstilna: ['Bosanski/Hrvatski/Srpski', 'Hemija', 'Fizika'],
-            umjetnicka: ['Bosanski/Hrvatski/Srpski', 'Likovna kultura', 'Strani jezik'],
-            muzicka: ['Bosanski/Hrvatski/Srpski', 'Muzička kultura', 'Strani jezik'],
-            drvna: ['Bosanski/Hrvatski/Srpski', 'Matematika', 'Biologija'],
-            ostale: ['Bosanski/Hrvatski/Srpski', 'Matematika', 'Fizika']
-        };
+<footer style="text-align:center; color:#e1f5fe; margin-top: 30px;">Sretno budući srednjoškolci!</footer>
 
-        function postaviPredmete() {
-            const skola = document.getElementById("skola").value;
-            const predmeti = predmetiMapa[skola];
-            const div = document.getElementById("predmeti");
-            div.innerHTML = '';
-            predmeti.forEach((predmet, i) => {
-                div.innerHTML += `<label>${predmet} VIII razred: <input type="number" id="pr${i + 1}a"></label>`;
-                div.innerHTML += `<label>${predmet} IX razred: <input type="number" id="pr${i + 1}b"></label>`;
-            });
-        }
+<script>
+const predmetiMapa = {
+  gimnazija: ['BHS jezik i književnost', 'Matematika', 'Prvi strani jezik'],
+  ekonomska: ['Matematika', 'Informatika', 'Prvi strani jezik'],
+  sportska: ['BHS jezik i književnost', 'Matematika', 'Tjelesni'],
+  it: ['BHS jezik i književnost', 'Matematika', 'Informatika'],
+  medicinska: ['Hemija', 'Biologija', 'Fizika'],
+  prehrambena: ['Hemija', 'Biologija', 'Informatika'],
+  ugostiteljska: ['Historija', 'Geografija', 'Prvi strani jezik'],
+  tekstilna: ['BHS jezik i književnost', 'Likovna kultura', 'Biologija'],
+  umjetnicka: ['BHS jezik i književnost', 'Historija', 'Likovna kultura'],
+  muzicka: ['BHS jezik i književnost', 'Muzička kultura', 'Prvi strani jezik'],
+  drvna: ['Hemija', 'Matematika', 'Biologija'],
+  ostale: ['Matematika', 'Fizika', 'Informatika']
+};
 
-        function izracunajBodove() {
-            const p6 = parseFloat(document.getElementById("p6").value) || 0;
-            const p7 = parseFloat(document.getElementById("p7").value) || 0;
-            const p8 = parseFloat(document.getElementById("p8").value) || 0;
-            const p9 = parseFloat(document.getElementById("p9").value) || 0;
+function postaviPredmete() {
+  const skola = document.getElementById("skola").value;
+  const predmeti = predmetiMapa[skola];
+  const div = document.getElementById("predmeti");
+  div.innerHTML = '';
+  predmeti.forEach((predmet, i) => {
+    div.innerHTML += `<label>${predmet} VIII razred: <input type="number" step="0.01" id="pr${i+1}a"></label>`;
+    div.innerHTML += `<label>${predmet} IX razred: <input type="number" step="0.01" id="pr${i+1}b"></label>`;
+  });
+}
 
-            const pr1a = parseFloat(document.getElementById("pr1a")?.value) || 0;
-            const pr1b = parseFloat(document.getElementById("pr1b")?.value) || 0;
-            const pr2a = parseFloat(document.getElementById("pr2a")?.value) || 0;
-            const pr2b = parseFloat(document.getElementById("pr2b")?.value) || 0;
-            const pr3a = parseFloat(document.getElementById("pr3a")?.value) || 0;
-            const pr3b = parseFloat(document.getElementById("pr3b")?.value) || 0;
+function izracunajBodove() {
+  const p6 = parseFloat(document.getElementById("p6").value) || 0;
+  const p7 = parseFloat(document.getElementById("p7").value) || 0;
+  const p8 = parseFloat(document.getElementById("p8").value) || 0;
+  const p9 = parseFloat(document.getElementById("p9").value) || 0;
 
-            const b = Math.min(parseFloat(document.getElementById("bosanski").value) || 0, 10);
-            const m = Math.min(parseFloat(document.getElementById("matematika").value) || 0, 10);
-            const s = Math.min(parseFloat(document.getElementById("strani").value) || 0, 10);
-            const matura = b + m + s;
+  const pr1a = parseFloat(document.getElementById("pr1a")?.value) || 0;
+  const pr1b = parseFloat(document.getElementById("pr1b")?.value) || 0;
+  const pr2a = parseFloat(document.getElementById("pr2a")?.value) || 0;
+  const pr2b = parseFloat(document.getElementById("pr2b")?.value) || 0;
+  const pr3a = parseFloat(document.getElementById("pr3a")?.value) || 0;
+  const pr3b = parseFloat(document.getElementById("pr3b")?.value) || 0;
 
-            const takm = Math.min(parseFloat(document.getElementById("takm").value) || 0, 10);
+  const b = Math.min(parseFloat(document.getElementById("bosanski").value) || 0, 10);
+  const m = Math.min(parseFloat(document.getElementById("matematika").value) || 0, 10);
+  const s = Math.min(parseFloat(document.getElementById("strani").value) || 0, 10);
+  const matura = (b + m + s) * 0.80;
 
-            const bodoviOpci = (p6 + p7 + p8 + p9) * 2.5;
-            const bodoviPredmeti = (pr1a + pr1b + pr2a + pr2b + pr3a + pr3b) * 0.335;
-            const ukupno = bodoviOpci + bodoviPredmeti + matura + takm;
+  const takm = Math.min(parseFloat(document.getElementById("takm").value) || 0, 7);
 
-            document.getElementById("rezultat").textContent = ukupno.toFixed(2);
-        }
+  const bodoviOpci = (p6 + p7 + p8 + p9) * 2.60;
+  const bodoviPredmeti = (pr1a + pr1b + pr2a + pr2b + pr3a + pr3b) * 0.80;
+  const ukupno = bodoviOpci + bodoviPredmeti + matura + takm;
 
-        postaviPredmete();
-    </script>
+  document.getElementById("rezultat").textContent = ukupno.toFixed(2);
+}
+
+function resetForm() {
+  document.querySelectorAll('input').forEach(i => i.value = '');
+  document.getElementById("rezultat").textContent = '-';
+  postaviPredmete();
+}
+
+async function exportToPDF() {
+  const { jsPDF } = window.jspdf;
+  const buttons = document.querySelectorAll("button");
+  buttons.forEach(btn => btn.style.visibility = "hidden");
+
+  await new Promise(resolve => setTimeout(resolve, 100));
+
+  const element = document.getElementById("pdfContent");
+  const canvas = await html2canvas(element, {
+    scale: 2,
+    useCORS: true
+  });
+
+  buttons.forEach(btn => btn.style.visibility = "visible");
+
+  const imgData = canvas.toDataURL("image/png");
+  const pdf = new jsPDF("p", "mm", "a4");
+  const imgProps = pdf.getImageProperties(imgData);
+  const pdfWidth = pdf.internal.pageSize.getWidth();
+  const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+
+  const totalPages = Math.ceil(pdfHeight / pdf.internal.pageSize.getHeight());
+  let y = 0;
+  for (let i = 0; i < totalPages; i++) {
+    if (i > 0) pdf.addPage();
+    pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight, undefined, 'FAST');
+    y -= pdf.internal.pageSize.getHeight();
+  }
+
+  pdf.setFont('helvetica', 'italic');
+  pdf.setFontSize(20);
+  pdf.setTextColor('#000000');
+  const potpis = " ZK ";
+  const potpisX = pdf.internal.pageSize.getWidth() - pdf.getTextWidth(potpis) - 20;
+  const potpisY = pdf.internal.pageSize.getHeight() - 20;
+  pdf.text(potpis, potpisX, potpisY);
+
+  pdf.save("bodovi.pdf");
+} 
+
+
+window.onload = postaviPredmete;
+</script>
 </body>
 </html>
+
+
+
+
