@@ -1,157 +1,175 @@
 <!DOCTYPE html>
 <html lang="bs">
 <head>
-    <meta charset="UTF-8" />
-    <title>Kalkulator za upis u srednju ZK</title>
-    <style>
-        body {
-            font-family: 'Segoe UI', sans-serif;
-            background: linear-gradient(to right, #cce7f0, #ffffff);
-            padding: 30px;
-            max-width: 900px;
-            margin: auto;
-            color: #333;
-            border-radius: 15px;
-            box-shadow: 0 0 20px rgba(0,0,0,0.1);
-        }
-        h1 {
-            color: #004d40;
-            text-align: center;
-            font-size: 32px;
-        }
-        h2 {
-            color: #00695c;
-            border-bottom: 2px solid #004d40;
-            padding-bottom: 5px;
-        }
-        label, select, input {
-            display: block;
-            margin: 10px 0;
-            width: 100%;
-        }
-        input, select {
-            padding: 10px;
-            border-radius: 8px;
-            border: 1px solid #ccc;
-            background-color: #f9f9f9;
-        }
-        button {
-            background-color: #00796b;
-            color: white;
-            border: none;
-            padding: 12px 25px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 16px;
-            margin-top: 15px;
-        }
-        button:hover {
-            background-color: #004d40;
-        }
-        .output {
-            font-weight: bold;
-            font-size: 20px;
-            margin-top: 30px;
-            text-align: center;
-        }
-        footer {
-            margin-top: 40px;
-            text-align: center;
-            font-style: italic;
-            color: #00796b;
-            font-size: 18px;
-        }
-    </style>
+<meta charset="UTF-8">
+<title>Kalkulator za upis u srednju školu ZK</title>
+<style>
+body { font-family:'Segoe UI', sans-serif; padding:30px; max-width:900px; margin:40px auto; color:#222; border-radius:15px; box-shadow:0 10px 30px rgba(0,0,0,0.15); background:linear-gradient(135deg,#4a90e2,#50e3c2);}
+h1 {color:#fff;text-align:center;font-size:36px;text-shadow:0 2px 4px rgba(0,0,0,0.3);}
+label {display:block;margin:15px 0 5px 0;font-weight:600;color:#f0f4f8;}
+input, select {padding:12px;width:150px;border-radius:8px;border:none;font-size:1rem;background-color:rgba(255,255,255,0.9);box-shadow:inset 0 2px 5px rgba(0,0,0,0.1);}
+input:focus, select:focus {outline:none;box-shadow:0 0 8px #00bcd4;background-color:#fff;}
+button {background-color:#00bcd4;color:white;border:none;padding:14px 28px;border-radius:10px;cursor:pointer;font-size:18px;margin:20px 15px 15px 0;box-shadow:0 5px 15px rgba(0,188,212,0.4);}
+button:hover {background-color:#0097a7;}
+button.reset {background-color:#e53935;}
+.output {font-weight:700;font-size:22px;margin-top:35px;text-align:center;padding:15px;background:rgba(255,255,255,0.15);border-radius:12px;color:#e1f5fe;}
+#predmeti label {color:white;}
+</style>
 </head>
-<body>
-    <h1>Kalkulator za upis u srednju školu ZK</h1>
+<body id="pdfContent">
 
-    <h2>1. Opći uspjeh</h2>
-    <label>Prosjek VI razred: <input type="number" step="0.01" id="p6"></label>
-    <label>Prosjek VII razred: <input type="number" step="0.01" id="p7"></label>
-    <label>Prosjek VIII razred: <input type="number" step="0.01" id="p8"></label>
-    <label>Prosjek IX razred: <input type="number" step="0.01" id="p9"></label>
+<h1>Kalkulator za upis u srednju školu ZK</h1>
 
-    <h2>2. Izaberi srednju školu u Sarajevu</h2>
-    <label>Vrsta škole:
-        <select id="skola" onchange="postaviPredmete()">
-            <option value="gimnazija">Gimnazija / Ekonomska / Trgovačka</option>
-            <option value="medicinska">Medicinska / Zubotehnička / Frizer / Kozmetičar / Veterinarska / Poljoprivredna / Šumarska / Prehrambena</option>
-            <option value="ugostiteljska">Ugostiteljsko-turistička</option>
-            <option value="tekstilna">Tekstilna / Kožarska</option>
-            <option value="umjetnicka">Škola primijenjenih umjetnosti</option>
-            <option value="muzicka">Muzička škola</option>
-            <option value="drvna">Drvna / Šumarska</option>
-            <option value="ostale">Mašinska / Metalska / Elektro / Građevinska / Geodetska / Saobraćajna / Grafička</option>
-        </select>
-    </label>
-    <div id="predmeti"></div>
+<h2>1. Opći uspjeh</h2>
+<label>Prosjek VI razred: <input type="number" step="0.01" id="p6" min="0" max="5"></label>
+<label>Prosjek VII razred: <input type="number" step="0.01" id="p7" min="0" max="5"></label>
+<label>Prosjek VIII razred: <input type="number" step="0.01" id="p8" min="0" max="5"></label>
+<label>Prosjek IX razred: <input type="number" step="0.01" id="p9" min="0" max="5"></label>
 
-    <h2>3. Eksterna matura (maks. 30 bodova)</h2>
-    <label>Bosanski jezik: <input type="number" id="bosanski" min="0" max="10"></label>
-    <label>Matematika: <input type="number" id="matematika" min="0" max="10"></label>
-    <label>Prvi strani jezik: <input type="number" id="strani" min="0" max="10"></label>
+<h2>2. Izaberi srednju školu u BiH</h2>
+<label>Vrsta škole:
+<select id="skola" onchange="postaviPredmete()">
+  <option value="gimnazija_opca">Gimnazija (opća)</option>
+  <option value="gimnazija_prirodna">Gimnazija (prirodno-matematička)</option>
+  <option value="gimnazija_dr">Gimnazija (društveno-jezička)</option>
+  <option value="gimnazija_it">Gimnazija – IT</option>
+  <option value="gimnazija_sportska">Gimnazija – sportsko</option>
+  <option value="medresa">Medresa</option>
+  <option value="ekonomska">Ekonomska</option>
+  <option value="trgovacka">Trgovačka</option>
+  <option value="poslovno_pravna">Poslovno-pravna</option>
+  <option value="turisticka">Turistička</option>
+  <option value="masinska">Mašinska</option>
+  <option value="elektrotehnicka">Elektrotehnička</option>
+  <option value="racunarska">Računarska</option>
+  <option value="gradjevinska">Građevinska</option>
+  <option value="saobracajna">Saobraćajna</option>
+  <option value="graficka">Grafička</option>
+  <option value="geodetska">Geodetska</option>
+  <option value="metalna">Metalna</option>
+  <option value="energetska">Energetska</option>
+  <option value="medicinska">Medicinska</option>
+  <option value="zubotehnicka">Zubotehnička</option>
+  <option value="veterinarska">Veterinarska</option>
+  <option value="farmaceutska">Farmaceutska</option>
+  <option value="poljoprivredna">Poljoprivredna</option>
+  <option value="prehrambena">Prehrambena</option>
+  <option value="sumarska">Šumarska</option>
+  <option value="drvna">Drvna</option>
+  <option value="ugostiteljska">Ugostiteljska</option>
+  <option value="frizerska">Frizerska</option>
+  <option value="kozmeticka">Kozmetička</option>
+  <option value="koznarska">Kožarska</option>
+  <option value="tekstilna">Tekstilna</option>
+  <option value="umjetnicka">Primijenjene umjetnosti</option>
+  <option value="muzicka">Muzička</option>
+  <option value="zdravstvena">Zdravstvena tehnička</option>
+</select>
+</label>
 
-    <h2>4. Takmičenja (maks. 10 bodova)</h2>
-    <label>Bodovi sa takmičenja: <input type="number" id="takm"></label>
+<div id="predmeti"></div>
 
-    <button onclick="izracunajBodove()">Izračunaj bodove</button>
+<h2>3. Eksterna matura (maks. 24 boda)</h2>
+<label>Bosanski jezik: <input type="number" id="bosanski" min="0" max="10"></label>
+<label>Matematika: <input type="number" id="matematika" min="0" max="10"></label>
+<label>Prvi strani jezik: <input type="number" id="strani" min="0" max="10"></label>
 
-    <div class="output">Ukupan broj bodova: <span id="rezultat">-</span></div>
+<h2>4. Takmičenja (maks. 7 bodova)</h2>
+<label>Bodovi sa takmičenja: <input type="number" id="takm" min="0" max="7"></label>
 
-    <footer>Sretno budući srednjoškolci!</footer>
+<button onclick="izracunajBodove()">Izračunaj bodove</button>
+<button onclick="resetForm()" class="reset">Resetuj formu</button>
 
-    <script>
-        const predmetiMapa = {
-            gimnazija: ['Bosanski/Hrvatski/Srpski', 'Matematika', 'Strani jezik'],
-            medicinska: ['Bosanski/Hrvatski/Srpski', 'Hemija', 'Biologija'],
-            ugostiteljska: ['Bosanski/Hrvatski/Srpski', 'Geografija', 'Strani jezik'],
-            tekstilna: ['Bosanski/Hrvatski/Srpski', 'Hemija', 'Fizika'],
-            umjetnicka: ['Bosanski/Hrvatski/Srpski', 'Likovna kultura', 'Strani jezik'],
-            muzicka: ['Bosanski/Hrvatski/Srpski', 'Muzička kultura', 'Strani jezik'],
-            drvna: ['Bosanski/Hrvatski/Srpski', 'Matematika', 'Biologija'],
-            ostale: ['Bosanski/Hrvatski/Srpski', 'Matematika', 'Fizika']
-        };
+<div class="output">Ukupan broj bodova: <span id="rezultat">-</span></div>
 
-        function postaviPredmete() {
-            const skola = document.getElementById("skola").value;
-            const predmeti = predmetiMapa[skola];
-            const div = document.getElementById("predmeti");
-            div.innerHTML = '';
-            predmeti.forEach((predmet, i) => {
-                div.innerHTML += `<label>${predmet} VIII razred: <input type="number" id="pr${i + 1}a"></label>`;
-                div.innerHTML += `<label>${predmet} IX razred: <input type="number" id="pr${i + 1}b"></label>`;
-            });
-        }
+<script>
+const predmetiMapa = {
+  gimnazija_opca: ['BHS jezik i književnost','Matematika','Prvi strani jezik'],
+  gimnazija_prirodna: ['Matematika','Fizika','Hemija'],
+  gimnazija_dr: ['BHS jezik i književnost','Historija','Geografija'],
+  gimnazija_it: ['BHS jezik i književnost','Matematika','Informatika'],
+  gimnazija_sportska: ['BHS jezik i književnost','Matematika','Tjelesni odgoj'],
+  medresa: ['BHS jezik i književnost','Matematika','Historija'],
+  ekonomska: ['Matematika','Informatika','Prvi strani jezik'],
+  trgovacka: ['Matematika','Prvi strani jezik','Informatika'],
+  poslovno_pravna: ['Matematika','BHS jezik i književnost','Prvi strani jezik'],
+  turisticka: ['Geografija','Prvi strani jezik','BHS jezik i književnost'],
+  masinska: ['Matematika','Fizika','Informatika'],
+  elektrotehnicka: ['Matematika','Fizika','Informatika'],
+  racunarska: ['Matematika','Informatika','BHS jezik i književnost'],
+  gradjevinska: ['Matematika','Fizika','Geografija'],
+  saobracajna: ['Matematika','Fizika','Geografija'],
+  graficka: ['Likovna kultura','Informatika','BHS jezik i književnost'],
+  geodetska: ['Matematika','Geografija','Fizika'],
+  metalna: ['Matematika','Fizika','Tehnička kultura'],
+  energetska: ['Matematika','Fizika','Hemija'],
+  medicinska: ['Biologija','Hemija','Fizika'],
+  zubotehnicka: ['Biologija','Hemija','Likovna kultura'],
+  veterinarska: ['Biologija','Hemija','Matematika'],
+  farmaceutska: ['Hemija','Biologija','Matematika'],
+  poljoprivredna: ['Biologija','Hemija','Geografija'],
+  prehrambena: ['Hemija','Biologija','Matematika'],
+  sumarska: ['Biologija','Hemija','Matematika'],
+  drvna: ['Matematika','Biologija','Hemija'],
+  ugostiteljska: ['Prvi strani jezik','Geografija','BHS jezik i književnost'],
+  frizerska: ['Biologija','Hemija','Likovna kultura'],
+  kozmeticka: ['Biologija','Hemija','Likovna kultura'],
+  koznarska: ['Likovna kultura','Hemija','Tehnička kultura'],
+  tekstilna: ['Likovna kultura','Hemija','Biologija'],
+  umjetnicka: ['Likovna kultura','Historija','BHS jezik i književnost'],
+  muzicka: ['Muzička kultura','BHS jezik i književnost','Prvi strani jezik'],
+  zdravstvena: ['Biologija','Hemija','Matematika'],
+};
 
-        function izracunajBodove() {
-            const p6 = parseFloat(document.getElementById("p6").value) || 0;
-            const p7 = parseFloat(document.getElementById("p7").value) || 0;
-            const p8 = parseFloat(document.getElementById("p8").value) || 0;
-            const p9 = parseFloat(document.getElementById("p9").value) || 0;
+function postaviPredmete(){
+  const skola = document.getElementById("skola").value;
+  const predmeti = predmetiMapa[skola] || [];
+  const div = document.getElementById("predmeti");
+  div.innerHTML = '';
+  predmeti.forEach((p,i)=>{
+    div.innerHTML += `<label>${p} VIII razred: <input type="number" step="0.01" id="pr${i+1}a" min="0" max="5"></label>`;
+    div.innerHTML += `<label>${p} IX razred: <input type="number" step="0.01" id="pr${i+1}b" min="0" max="5"></label>`;
+  });
+}
 
-            const pr1a = parseFloat(document.getElementById("pr1a")?.value) || 0;
-            const pr1b = parseFloat(document.getElementById("pr1b")?.value) || 0;
-            const pr2a = parseFloat(document.getElementById("pr2a")?.value) || 0;
-            const pr2b = parseFloat(document.getElementById("pr2b")?.value) || 0;
-            const pr3a = parseFloat(document.getElementById("pr3a")?.value) || 0;
-            const pr3b = parseFloat(document.getElementById("pr3b")?.value) || 0;
+window.onload = postaviPredmete;
 
-            const b = Math.min(parseFloat(document.getElementById("bosanski").value) || 0, 10);
-            const m = Math.min(parseFloat(document.getElementById("matematika").value) || 0, 10);
-            const s = Math.min(parseFloat(document.getElementById("strani").value) || 0, 10);
-            const matura = b + m + s;
+function izracunajBodove(){
+  const p6=parseFloat(document.getElementById("p6").value)||0;
+  const p7=parseFloat(document.getElementById("p7").value)||0;
+  const p8=parseFloat(document.getElementById("p8").value)||0;
+  const p9=parseFloat(document.getElementById("p9").value)||0;
 
-            const takm = Math.min(parseFloat(document.getElementById("takm").value) || 0, 10);
+  let predmetiBodovi=0;
+  const skola=document.getElementById("skola").value;
+  const predmeti=predmetiMapa[skola]||[];
+  predmeti.forEach((_,i)=>{
+    predmetiBodovi += (parseFloat(document.getElementById(`pr${i+1}a`).value)||0);
+    predmetiBodovi += (parseFloat(document.getElementById(`pr${i+1}b`).value)||0);
+  });
 
-            const bodoviOpci = (p6 + p7 + p8 + p9) * 2.5;
-            const bodoviPredmeti = (pr1a + pr1b + pr2a + pr2b + pr3a + pr3b) * 0.335;
-            const ukupno = bodoviOpci + bodoviPredmeti + matura + takm;
+  const b=Math.min(parseFloat(document.getElementById("bosanski").value)||0,10);
+  const m=Math.min(parseFloat(document.getElementById("matematika").value)||0,10);
+  const s=Math.min(parseFloat(document.getElementById("strani").value)||0,10);
+  const matura=(b+m+s)*0.80;
 
-            document.getElementById("rezultat").textContent = ukupno.toFixed(2);
-        }
+  const takm=Math.min(parseFloat(document.getElementById("takm").value)||0,7);
+  const bodoviOpci=(p6+p7+p8+p9)*2.60;
+  const ukupno=bodoviOpci + predmetiBodovi*0.8 + matura + takm;
 
-        postaviPredmete();
+  document.getElementById("rezultat").textContent=ukupno.toFixed(2);
+}
+
+function resetForm(){
+  document.querySelectorAll('input').forEach(i=>i.value='');
+  document.getElementById("rezultat").textContent='-';
+  postaviPredmete();
+}
+</script>
+
+</body>
+</html>
     </script>
 </body>
 </html>
+
